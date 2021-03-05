@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-dark bg-dark bg-gradient">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">MD User Management</span>
+        <ul class="nav nav-pills justify-content-end">
+          <li class="nav-item">
+            <a
+              class="nav-link text-ligh active"
+              aria-current="page"
+              href="./index.html"
+              >Register</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-ligh" href="./login.html">Login</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div
+      class="container-fluid d-flex justify-content-center align-items-center mt-5"
+    >
+      <form id="reg-form">
+        <label for="user-name" class="form-label">User name</label>
+        <input
+          class="form-control form-control-lg"
+          type="text"
+          id="user-name"
+          autocomplete="off"
+          placeholder="Username"
+        />
+
+        <label for="password" class="form-label">Password</label>
+        <input
+          class="form-control form-control-lg mb-3"
+          type="password"
+          id="password"
+          autocomplete="off"
+          placeholder="Password"
+        />
+        <div class="d-grid mx-auto">
+          <input class="btn btn-primary" type="submit" value="Go" />
+        </div>
+      </form>
+    </div>
+    <script>
+      // getelement returns a dom element having the string "id" paased in it
+      function getElement(id) {
+        return document.getElementById(id);
+      }
+
+      // get value of input field having passed id
+      function getInputValue(id) {
+        return getElement(id).value.trim();
+      }
+
+      async function registerUser(event) {
+        event.preventDefault();
+
+        const userName = getInputValue("user-name");
+        const password = getInputValue("password");
+
+        const userInfo = {
+          userName,
+          password,
+        };
+
+        axios
+          .post("http://localhost:3001/api/register", userInfo)
+          .then((result) => {
+            console.log(result);
+            alert(result.data.message);
+          })
+          .catch((err) => {
+            console.log(err);
+            alert(err.type);
+          });
+      }
+
+      const form = getElement("reg-form");
+      form.addEventListener("submit", registerUser);
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"
+      integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
